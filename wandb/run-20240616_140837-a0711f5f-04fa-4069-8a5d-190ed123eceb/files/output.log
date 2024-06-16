@@ -1,0 +1,178 @@
+[36mSaving config:
+{
+    "K_epochs":	5,
+    "action_shape":	[
+        4
+    ],
+    "actor_hidden_dims":	[
+        256,
+        256
+    ],
+    "actor_lr":	0.0003,
+    "agent_type":	"ML10",
+    "algo_name":	"ppo",
+    "critic_lr":	0.0007,
+    "data_num":	null,
+    "decoder_mask_type":	"ego",
+    "decoder_masking_indices":	[
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38
+    ],
+    "device":	"cuda:0",
+    "embed_dim":	5,
+    "embed_loss":	"decoder",
+    "embed_type":	"skill",
+    "encoder_lr":	0.0005,
+    "env_type":	"MetaGym",
+    "episode_len":	1000,
+    "episode_num":	2,
+    "epoch":	10000,
+    "eps_clip":	0.1,
+    "eval_episodes":	3,
+    "gpu_idx":	0,
+    "group":	"MetaGym-ML10-ppo-b485",
+    "hidden_dims":	[
+        256,
+        256
+    ],
+    "import_policy":	false,
+    "init_epoch":	0,
+    "log_interval":	10,
+    "logdir":	"log/MetaGym-ML10-ppo-b485",
+    "masking_indices":	[
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38
+    ],
+    "max_action":	"1.0",
+    "max_num_trj":	100,
+    "max_trj_length":	1000,
+    "name":	"ppo-b485-seed:1",
+    "num_cores":	null,
+    "obs_shape":	[
+        39
+    ],
+    "policy_mask_type":	"ego",
+    "project":	"hmrl",
+    "rendering":	true,
+    "seeds":	[
+        1,
+        3,
+        5,
+        7,
+        9
+    ],
+    "step_per_epoch":	50,
+    "task":	"MetaGym-ML10",
+    "task_name":	null,
+    "task_num":	null,
+    "verbose":	true,
+    "visualize_latent_space":	true
+}
+Epoch:   0%|                                                                                              | 0/10000 [00:00<?, ?it/s]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

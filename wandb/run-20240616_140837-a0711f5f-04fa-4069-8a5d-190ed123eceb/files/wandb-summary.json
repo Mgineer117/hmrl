@@ -1,0 +1,1 @@
+{"loss/critic_loss": 86.90124583244325, "loss/actor_loss": 1029.844711303711, "loss/decoder_loss": 980.1160006324451, "train/episodic_reward": 124.36772982279459, "train/success": 0.0015395833179354668, "sample_time": 2.326492100954056, "_timestamp": 1718565084.917645, "_runtime": 167.16531896591187, "_step": 47}

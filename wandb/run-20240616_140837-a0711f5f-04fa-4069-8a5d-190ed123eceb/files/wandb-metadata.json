@@ -1,0 +1,202 @@
+{
+    "os": "Linux-6.8.0-35-generic-x86_64-with-glibc2.39",
+    "python": "3.10.14",
+    "heartbeatAt": "2024-06-16T19:08:38.267120",
+    "startedAt": "2024-06-16T19:08:37.750416",
+    "docker": null,
+    "cuda": null,
+    "args": [],
+    "state": "running",
+    "program": "/home/minjae-cho/Documents/minjae/research/projects/hmrl/run_ppo.py",
+    "codePathLocal": "run_ppo.py",
+    "codePath": "run_ppo.py",
+    "host": "minjae-cho-System-Product-Name",
+    "username": "minjae-cho",
+    "executable": "/home/minjae-cho/miniconda3/envs/rl/bin/python3",
+    "cpu_count": 16,
+    "cpu_count_logical": 32,
+    "cpu_freq": {
+        "current": 1895.1802187500002,
+        "min": 400.0,
+        "max": 5759.0
+    },
+    "cpu_freq_per_core": [
+        {
+            "current": 4927.879,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 5060.049,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 5417.313,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 5464.067,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 5463.483,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 5376.013,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 5012.751,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 4810.449,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 5023.948,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 5432.762,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 400.0,
+            "min": 400.0,
+            "max": 5759.0
+        },
+        {
+            "current": 5388.322,
+            "min": 400.0,
+            "max": 5759.0
+        }
+    ],
+    "disk": {
+        "/": {
+            "total": 1336.6077766418457,
+            "used": 54.23471450805664
+        }
+    },
+    "gpu": "NVIDIA GeForce RTX 4080 SUPER",
+    "gpu_count": 1,
+    "gpu_devices": [
+        {
+            "name": "NVIDIA GeForce RTX 4080 SUPER",
+            "memory_total": 17171480576
+        }
+    ],
+    "memory": {
+        "total": 62.00896453857422
+    }
+}
