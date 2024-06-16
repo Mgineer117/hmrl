@@ -740,3 +740,18 @@
 2024-06-16 14:12:30,513 DEBUG   SenderThread:80999 [sender.py:send():379] send: history
 2024-06-16 14:12:30,514 DEBUG   SenderThread:80999 [sender.py:send_request():406] send_request: summary_record
 2024-06-16 14:12:30,514 INFO    SenderThread:80999 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-06-16 14:12:30,925 DEBUG   HandlerThread:80999 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-16 14:12:31,127 INFO    Thread-12 :80999 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/minjae-cho/Documents/minjae/research/projects/hmrl/wandb/run-20240616_140837-a0711f5f-04fa-4069-8a5d-190ed123eceb/files/wandb-summary.json
+2024-06-16 14:12:31,925 DEBUG   HandlerThread:80999 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-16 14:12:32,127 INFO    Thread-12 :80999 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/minjae-cho/Documents/minjae/research/projects/hmrl/wandb/run-20240616_140837-a0711f5f-04fa-4069-8a5d-190ed123eceb/files/output.log
+2024-06-16 14:12:32,925 DEBUG   HandlerThread:80999 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-16 14:12:33,554 DEBUG   HandlerThread:80999 [handler.py:handle_request():158] handle_request: status_report
+2024-06-16 14:12:33,925 DEBUG   HandlerThread:80999 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-16 14:12:34,489 DEBUG   HandlerThread:80999 [handler.py:handle_request():158] handle_request: partial_history
+2024-06-16 14:12:34,489 DEBUG   SenderThread:80999 [sender.py:send():379] send: history
+2024-06-16 14:12:34,489 DEBUG   SenderThread:80999 [sender.py:send_request():406] send_request: summary_record
+2024-06-16 14:12:34,490 INFO    SenderThread:80999 [sender.py:_save_file():1454] saving file wandb-summary.json with policy end
+2024-06-16 14:12:34,926 DEBUG   HandlerThread:80999 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-16 14:12:35,128 INFO    Thread-12 :80999 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/minjae-cho/Documents/minjae/research/projects/hmrl/wandb/run-20240616_140837-a0711f5f-04fa-4069-8a5d-190ed123eceb/files/wandb-summary.json
+2024-06-16 14:12:35,926 DEBUG   HandlerThread:80999 [handler.py:handle_request():158] handle_request: internal_messages
+2024-06-16 14:12:36,128 INFO    Thread-12 :80999 [dir_watcher.py:_on_file_modified():288] file/dir modified: /home/minjae-cho/Documents/minjae/research/projects/hmrl/wandb/run-20240616_140837-a0711f5f-04fa-4069-8a5d-190ed123eceb/files/output.log
