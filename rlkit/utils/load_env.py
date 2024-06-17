@@ -338,4 +338,4 @@ def load_metagym_env(key, task: str = None, task_num: int = None, render_mode: s
         eval_env_idx = random.choice(range(len(training_envs)))
         testing_envs = training_envs[eval_env_idx]
 
-    return training_envs, testing_envs, eval_env_idx
+    return training_envs, testing_envs

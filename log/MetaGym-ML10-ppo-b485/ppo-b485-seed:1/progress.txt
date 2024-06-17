@@ -1,2 +1,0 @@
-Steps	loss/critic_loss	loss/actor_loss	loss/decoder_loss	train/episodic_reward	train/success	sample_time	eval/episode_reward	eval/episode_reward_std	eval/ep_success_mean	eval/ep_success_std	eval/episode_length	eval/episode_length_std	update/env_step
-49	84.32939472198488	989.628154296875	941.2948488426209	123.6350550842285	0.001477999985218048	2.3292135858535765	370.20259073119496	0.0	0.0	0.0	500.0	0.0	49.0

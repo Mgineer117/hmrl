@@ -142,15 +142,15 @@ class ILmodel(nn.Module):
         '''Define model'''
         # embedding has tanh as an activation function while encoder and decoder have ReLU
         self.embed = MLP(
-            input_dim=state_dim+latent_dim-self.masking_length ,
+            input_dim=state_dim+latent_dim,
             hidden_dims=(64, 64),
-            output_dim=state_dim+latent_dim-self.masking_length,
+            output_dim=state_dim+latent_dim,
             activation=nn.Tanh,
             device=device
         )
 
         self.encoder = MLP(
-            input_dim=state_dim+latent_dim-self.masking_length ,
+            input_dim=state_dim+latent_dim,
             hidden_dims=(64, 64, 32),
             output_dim=latent_dim,
             device=device
@@ -160,7 +160,7 @@ class ILmodel(nn.Module):
         self.logstd_network = nn.Linear(latent_dim, latent_dim).to(device)
 
         self.decoder = MLP(
-            input_dim=latent_dim,
+            input_dim=latent_dim + state_dim - self.masking_length,
             hidden_dims=(64, 64, 32),
             output_dim=state_dim,
             dropout_rate=0.7,
@@ -179,16 +179,17 @@ class ILmodel(nn.Module):
 
     def forward(
         self,
-        obs: torch.Tensor,
+        state: torch.Tensor,
         y: torch.Tensor,
     ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
 
         # conversion
-        obs = torch.as_tensor(obs, device=self.device, dtype=torch.float32)
+        state = torch.as_tensor(state, device=self.device, dtype=torch.float32)
         y = torch.as_tensor(y, device=self.device, dtype=torch.float32)
 
-        ego_state = self.torch_delete(obs, self.masking_indices, axis=-1)
-        input = torch.concatenate((ego_state, y), axis=-1)
+        #ego_state = self.torch_delete(obs, self.masking_indices, axis=-1)
+        #input = torch.concatenate((ego_state, y), axis=-1)
+        input = torch.concatenate((state, y), axis=-1)
 
         # embedding network
         input = self.embed(input)
@@ -204,15 +205,18 @@ class ILmodel(nn.Module):
 
         return z, z_mu, z_std
 
-    def decode(self, next_states: torch.Tensor, z: Optional[torch.Tensor], z_mu: torch.Tensor, z_std: torch.Tensor) -> torch.Tensor:
-        next_state_pred = self.decoder(z)
+    def decode(self, states: torch.Tensor,  next_states: torch.Tensor, z: Optional[torch.Tensor], z_mu: torch.Tensor, z_std: torch.Tensor) -> torch.Tensor:
+        ego_states = self.torch_delete(states, self.masking_indices, axis=-1)
+        input = torch.concatenate((ego_states, z), axis=-1)
+
+        next_state_pred = self.decoder(input)
 
         state_pred_loss = F.mse_loss(next_state_pred, next_states)
         kl_loss = - 0.5 * torch.sum(1 + torch.log(z_std.pow(2)) - z_mu.pow(2) - z_std.pow(2))
 
         ELBO_loss = state_pred_loss + kl_loss
 
-        return ELBO_loss
+        return (ELBO_loss, state_pred_loss, kl_loss)
 
     def torch_delete(self, tensor, indices, axis=None):
         tensor = tensor.cpu().numpy()
@@ -274,7 +278,7 @@ class HLmodel(nn.Module):
         self.cat_layer = MLP(
             input_dim=feature_dim,
             hidden_dims=(512, 512), # hidden includes the relu activation
-            dropout_rate=0.7,
+            #dropout_rate=0.7,
             device=device
         )
 

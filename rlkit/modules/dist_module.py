@@ -5,20 +5,21 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class NormalWrapper(torch.distributions.MultivariateNormal):
+    '''returning with 2d-array'''
     def log_prob(self, actions):
-        return super().log_prob(actions)
+        return super().log_prob(actions).unsqueeze(-1)
 
     def entropy(self):
-        return super().entropy()
+        return super().entropy().unsqueeze(-1)
 
     def mode(self):
-        return self.mean
+        return self.mean#.unsqueeze(-1)
 
     def std(self):
-        return self.stddev
+        return self.stddev.unsqueeze(-1)
         
     def logstd(self):
-        return torch.log(self.stddev)
+        return torch.log(self.stddev).unsqueeze(-1)
 
 class TanhNormalWrapper(torch.distributions.Normal):
     def __init__(self, loc, scale, max_action):

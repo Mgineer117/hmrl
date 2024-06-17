@@ -114,7 +114,8 @@ class OnlineSampler:
             states = np.zeros((batch_size, self.obs_dim)),
             next_states = np.zeros((batch_size, self.obs_dim)),
             actions = np.zeros((batch_size, self.action_dim)),
-            embeddings = np.zeros((batch_size, self.embed_dim)),
+            ys = np.zeros((batch_size, self.embed_dim)),
+            zs = np.zeros((batch_size, self.embed_dim)),
             rewards = np.zeros((batch_size, 1)),
             terminals = np.zeros((batch_size, 1)),
             timeouts = np.zeros((batch_size, 1)),
@@ -155,7 +156,7 @@ class OnlineSampler:
                 # sample action
                 with torch.no_grad(): 
                     '''TO-DO // HOW WE RESET??'''
-                    a, logprob, z = policy(input_tuple, deterministic=deterministic)
+                    a, logprob, (y, z) = policy(input_tuple, deterministic=deterministic)
                     
                 # env stepping
                 ns, rew, term, trunc, infos = env.step(a)
@@ -172,7 +173,8 @@ class OnlineSampler:
                 data['states'][current_step+t, :] = s
                 data['actions'][current_step+t, :] = a
                 data['next_states'][current_step+t, :] = ns
-                data['embeddings'][current_step+t, :] = z
+                data['ys'][current_step+t, :] = y
+                data['zs'][current_step+t, :] = z
                 data['rewards'][current_step+t, :] = rew
                 data['terminals'][current_step+t, :] = term
                 data['timeouts'][current_step+t, :] = trunc
@@ -195,7 +197,8 @@ class OnlineSampler:
             states=data['states'].astype(np.float32),
             actions=data['actions'].astype(np.float32),
             next_states=data['next_states'].astype(np.float32),
-            embeddings=data['embeddings'].astype(np.float32),
+            ys=data['ys'].astype(np.float32),
+            zs=data['zs'].astype(np.float32),
             rewards=data['rewards'].astype(np.float32),
             terminals=data['terminals'].astype(np.int32),
             timeouts=data['timeouts'].astype(np.int32),
@@ -262,17 +265,20 @@ class OnlineSampler:
         
         if latent_path is not None:
             '''draw latent variable !!!'''
-            latent_info = [worker_memories[i]['embeddings'] for i in range(self.num_worker_per_env-1, len(worker_memories), self.num_worker_per_env)]
-            latent_info.append(memory['embeddings'])
+            y_info = [worker_memories[i]['ys'] for i in range(self.num_worker_per_env-1, len(worker_memories), self.num_worker_per_env)]
+            y_info.append(memory['ys'])
             
+            z_info = [worker_memories[i]['zs'] for i in range(self.num_worker_per_env-1, len(worker_memories), self.num_worker_per_env)]
+            z_info.append(memory['zs'])
+
+            latent_info = [y_info, z_info]
+
             tasks_name = []
             for env in self.training_envs:
-                try:
-                    tasks_name.append(env.task_name)
-                except:
-                    tasks_name.append(env.unwrapped.spec.id)
+                tasks_name.append(env.task_name)
 
-            visualize_latent_variable(tasks_name, latent_info, latent_path)
+            for info, path in zip(latent_info, latent_path):
+                visualize_latent_variable(tasks_name, info, path)
             
         for worker_memory in worker_memories:
             for k in memory:

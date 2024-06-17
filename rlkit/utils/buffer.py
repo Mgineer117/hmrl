@@ -75,7 +75,7 @@ class TrajectoryBuffer:
         num_traj: int
     ) -> Dict[str, torch.Tensor]:
         if num_traj > self.num_trj:
-            raise ValueError(f"Cannot sample {num_traj} trajectories, only {self.num_trj} trajectories available.")
+            num_traj = self.num_trj
         
         # Sample random trajectories
         sampled_trajs = np.random.choice(self.num_trj, num_traj, replace=False)
@@ -102,12 +102,6 @@ class TrajectoryBuffer:
                 next_states = np.concatenate((next_states, sampled_next_states[i, :mask_idx+1]), axis=0)
                 rewards = np.concatenate((rewards, sampled_rewards[i, :mask_idx+1]), axis=0)
                 masks = np.concatenate((masks, sampled_masks[i, :mask_idx+1]), axis=0)
-
+        
         # Convert to Torch tensors and move to device
-        return {
-            "states": torch.tensor(states).to(self.device),
-            "actions": torch.tensor(actions).to(self.device),
-            "next_states": torch.tensor(next_states).to(self.device),
-            "rewards": torch.tensor(rewards).to(self.device),
-            "masks": torch.tensor(masks).to(self.device)
-        }
+        return (states, actions, next_states, rewards, masks)

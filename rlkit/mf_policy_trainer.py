@@ -15,9 +15,38 @@ from typing import Optional, Dict, List
 from tqdm.auto import trange
 from collections import deque
 from rlkit.utils.sampler import OnlineSampler
-from rlkit.utils.buffer import TrajectoryBuffer
 from rlkit.utils.wandb_logger import WandbLogger
 from rlkit.nets import HiMeta
+
+def check_model_params(model_before, model_after):
+  """
+  This function checks if the parameters of two models are equal.
+
+  Args:
+      model_before (torch.nn.Module): Model before the process.
+      model_after (torch.nn.Module): Model after the process.
+
+  Returns:
+      bool: True if all parameters are equal, False otherwise.
+  """
+  # Get all parameters from both models
+  params_before = list(model_before.parameters())
+  params_after = list(model_after.parameters())
+
+  # Check if number of parameters is equal
+  if len(params_before) != len(params_after):
+    print('not equal')
+    return False
+
+  # Check if all corresponding parameters are equal
+  for param1, param2 in zip(params_before, params_after):
+    if not torch.equal(param1.data, param2.data):
+      print('not equal')
+      return
+
+  # All parameters are equal
+  print('equal')
+  return
 
 # model-free policy trainer
 class MFPolicyTrainer:
@@ -87,7 +116,7 @@ class MFPolicyTrainer:
         for e in trange(self._init_epoch, self._epoch, desc=f"Epoch"):
             self.current_epoch = e
             self.policy.train()
-            
+                
             for it in trange(self._init_step_per_epoch, self._step_per_epoch, desc=f"Training", leave=False):
                 if self.visualize_latent_space and self.embed_dim > 0:
                     self.save_latent_space(e, it)
@@ -235,6 +264,7 @@ class MFPolicyTrainer:
 
     def save_latent_space(self, e, it):
         if e % self.log_interval == 0 and it == 0:
-            self.latent_path = os.path.join(self.logger.checkpoint_dir, 'latent', str(self.current_epoch*self._step_per_epoch) +'.png')
+            self.latent_path = (os.path.join(self.logger.checkpoint_dir, 'latent', 'y', str(self.current_epoch*self._step_per_epoch) +'.png'),
+                                os.path.join(self.logger.checkpoint_dir, 'latent', 'z', str(self.current_epoch*self._step_per_epoch) +'.png'))
         else:
             self.latent_path = None

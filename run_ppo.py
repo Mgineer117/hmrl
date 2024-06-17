@@ -43,8 +43,8 @@ def get_args():
     parser.add_argument('--num-cores', type=int, default=None)
     parser.add_argument('--actor-hidden-dims', default=(256, 256))
     parser.add_argument('--hidden-dims', default=(256, 256))
-    parser.add_argument("--K-epochs", type=int, default=5)
-    parser.add_argument("--eps-clip", type=float, default=0.1)
+    parser.add_argument("--K-epochs", type=int, default=3)
+    parser.add_argument("--eps-clip", type=float, default=0.2)
     parser.add_argument("--actor-lr", type=float, default=3e-4)
     parser.add_argument("--critic-lr", type=float, default=7e-4)
     parser.add_argument("--encoder-lr", type=float, default=5e-4)
@@ -55,13 +55,13 @@ def get_args():
     parser.add_argument("--policy-mask-type", type=str, default='ego') # ego or other or none # this is for skill embedding
 
     '''Sampling parameters'''
-    parser.add_argument('--epoch', type=int, default=10000)
+    parser.add_argument('--epoch', type=int, default=20000)
     parser.add_argument('--init-epoch', type=int, default=0)
     parser.add_argument("--step-per-epoch", type=int, default=50)
-    parser.add_argument('--max-num-trj', type=int, default=100)
+    parser.add_argument('--max-num-trj', type=int, default=120)
     parser.add_argument('--max-trj-length', type=int, default=1000)
-    parser.add_argument('--episode_len', type=int, default=1000)
-    parser.add_argument('--episode_num', type=int, default=2)
+    parser.add_argument('--episode_len', type=int, default=500)
+    parser.add_argument('--episode_num', type=int, default=4)
     parser.add_argument("--eval_episodes", type=int, default=3)
     parser.add_argument("--rendering", type=bool, default=True)
     parser.add_argument("--visualize-latent-space", type=bool, default=True)
@@ -83,7 +83,7 @@ def train(args=get_args()):
         # create env and dataset
         args.task = '-'.join((args.env_type, args.agent_type))
         if args.env_type =='MetaGym':
-            training_envs, testing_envs, eval_env_idx = load_metagym_env(args.task, args.task_name, args.task_num, render_mode='rgb_array')
+            training_envs, testing_envs = load_metagym_env(args.task, args.task_name, args.task_num, render_mode='rgb_array')
         else:
             NotImplementedError
 
@@ -94,8 +94,6 @@ def train(args=get_args()):
         
         # define encoder 
         get_masking_indices(args) # saved in args
-
-        
         
         # import pre-trained model before defining actual models
         '''
