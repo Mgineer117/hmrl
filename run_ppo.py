@@ -40,7 +40,7 @@ def get_args():
 
     '''Algorithmic and sampling parameters'''
     parser.add_argument('--seeds', default=[1, 3, 5, 7, 9], type=list)
-    parser.add_argument('--num-cores', type=int, default=None)
+    parser.add_argument('--num-cores', type=int, default=14)
     parser.add_argument('--actor-hidden-dims', default=(256, 256))
     parser.add_argument('--hidden-dims', default=(256, 256))
     parser.add_argument("--K-epochs", type=int, default=3)
@@ -60,8 +60,8 @@ def get_args():
     parser.add_argument("--step-per-epoch", type=int, default=50)
     parser.add_argument('--max-num-trj', type=int, default=120)
     parser.add_argument('--max-trj-length', type=int, default=1000)
-    parser.add_argument('--episode_len', type=int, default=500)
-    parser.add_argument('--episode_num', type=int, default=4)
+    parser.add_argument('--episode-len', type=int, default=500)
+    parser.add_argument('--episode-num', type=int, default=4)
     parser.add_argument("--eval_episodes", type=int, default=3)
     parser.add_argument("--rendering", type=bool, default=True)
     parser.add_argument("--visualize-latent-space", type=bool, default=True)
@@ -94,6 +94,9 @@ def train(args=get_args()):
         
         # define encoder 
         get_masking_indices(args) # saved in args
+        args.masking_indices = []
+        args.decoder_masking_indices = []
+
         
         # import pre-trained model before defining actual models
         '''

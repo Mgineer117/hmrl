@@ -13,32 +13,38 @@ from typing import Optional, Union, Tuple, Dict
 from datetime import date
 today = date.today()
 
+def allocate_values(total, value):
+    result = []
+    remaining = total
+
+    while remaining >= value:
+        result.append(value)
+        remaining -= value
+
+    if remaining != 0:
+        result.append(remaining)
+
+    return result
+
 def calculate_workers_and_rounds(environments, episodes_per_env, num_cores):
-    if episodes_per_env == 1:
+    if episodes_per_env <= 2:
         num_worker_per_env = 1
-    elif episodes_per_env >= 2:
+    elif episodes_per_env > 2:
         num_worker_per_env = episodes_per_env // 2
     
     # Calculate total number of workers
     total_num_workers = num_worker_per_env * len(environments)
 
     if total_num_workers > num_cores:
-        rounds = math.ceil(total_num_workers / num_cores) 
+        avail_core_per_env =  num_cores // num_worker_per_env
 
-        num_worker_per_round = []
-        workers_remaining = total_num_workers
-        for i in range(rounds):
-            if workers_remaining >= num_cores:
-                num_worker_per_round.append(num_cores)
-                workers_remaining -= num_cores
-            else:
-                num_worker_per_round.append(workers_remaining)
-                workers_remaining = 0
-        num_env_per_round = [int(x / num_worker_per_env) for x in num_worker_per_round] #num_worker_per_round / num_worker_per_env
+        num_worker_per_round = allocate_values(total_num_workers, avail_core_per_env*num_worker_per_env)
+        num_env_per_round = allocate_values(len(environments), avail_core_per_env)
+        rounds = len(num_env_per_round)
     else:
-        rounds = 1
         num_worker_per_round = [total_num_workers]
         num_env_per_round = [len(environments)]
+        rounds = 1
     
     episodes_per_worker = int(episodes_per_env * len(environments) / total_num_workers)
     return num_worker_per_round, num_env_per_round, episodes_per_worker, rounds
@@ -83,7 +89,7 @@ class OnlineSampler:
 
         print('Sampling Parameters:')
         print('--------------------')
-        print(f'Core usage for this run           : {self.num_workers_per_round[0]}/{self.num_cores} | {multiprocessing.cpu_count()}')
+        print(f'Cores (usage)/(given)             : {self.num_workers_per_round[0]}/{self.num_cores} out of {multiprocessing.cpu_count()}')
         print(f'Number of Environments each Round : {self.num_env_per_round}')
         print(f'Total number of Worker            : {self.total_num_worker}')
         print(f'Episodes per Worker               : {self.episodes_per_worker}')
@@ -238,7 +244,10 @@ class OnlineSampler:
 
         for round_number in range(self.rounds):
             processes = []
-            envs = self.training_envs[env_idx:env_idx+self.num_env_per_round[round_number]]
+            if round_number == self.rounds - 1:
+                envs = self.training_envs[env_idx:]
+            else:
+                envs = self.training_envs[env_idx:env_idx+self.num_env_per_round[round_number]]
             for env in envs:
                 workers_for_env = self.num_workers_per_round[round_number] // len(envs)
                 for _ in range(workers_for_env):
@@ -255,8 +264,8 @@ class OnlineSampler:
                         p.start()
                     worker_idx += 1
                 env_idx += 1
-            for p in processes:
-                p.join()        
+        for p in processes:
+            p.join()        
 
         worker_memories = [None] * (worker_idx - 1)
         for _ in range(worker_idx - 1): 

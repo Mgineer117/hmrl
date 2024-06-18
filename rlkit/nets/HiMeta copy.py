@@ -93,8 +93,10 @@ class HiMeta(nn.Module):
         Used during the update (learn), since it does not need to 
         make an action but encodded obs or embedding itself.
         '''
+        states, _, _, _, _ = input_tuple
+
         # HL
-        states, y = self.HLmodel(input_tuple, is_batch=True)
+        _, y = self.HLmodel(input_tuple, is_batch=True)
 
         # IL
         z, z_mu, z_std = self.ILmodel(states.clone().detach(), y.clone().detach())
